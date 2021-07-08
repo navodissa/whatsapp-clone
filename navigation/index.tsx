@@ -14,6 +14,8 @@ import NotFoundScreen from '../screens/NotFoundScreen';
 import { RootStackParamList } from '../types';
 import BottomTabNavigator from './MainTabNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
+import ChatRoomScreen from '../screens/ChatRoomScreen';
+import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -55,6 +57,21 @@ function RootNavigator() {
           </View>
           )
         }}/>
+        <Stack.Screen name="ChatRoom" 
+          component={ChatRoomScreen} 
+          options={( { route }) => ({ title: route.params.name,
+           headerRight: () => (
+             <View style={{
+               flexDirection:'row',
+               width: 100,
+               justifyContent: 'space-between',
+               marginRight: 10
+             }}>
+               <MaterialIcons name="call" size={22} color={'white'} />
+               <FontAwesome5 name="video" size={22} color={"white"} />
+               <Entypo name="dots-three-vertical" size={20} color="white" />
+             </View>
+           )})} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
   );
