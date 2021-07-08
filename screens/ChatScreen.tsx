@@ -6,6 +6,7 @@ import { Text, View } from '../components/Themed';
 import ChatListItem from '../components/ChatListItems';
 import chatRooms from '../data/ChatRooms';
 import { withDecay } from 'react-native-reanimated';
+import NewMessageButton from '../components/NewMessageButton';
 
 
 export default function TabOneScreen() {
@@ -17,6 +18,7 @@ export default function TabOneScreen() {
         keyExtractor={(item) => item.id} 
       />
       {/* <ChatListItem chatRoom={ChatRooms[0]}/> */}
+      <NewMessageButton />
     </View>
   );
 }
