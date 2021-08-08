@@ -12,7 +12,8 @@ export type ChatListItemProps = {
 const ChatListItem = ( props: ChatListItemProps ) => {
     const { chatRoom } = props;
 
-    const user = chatRoom.users[1];
+    // const user = chatRoom.users[1];
+    const user = chatRoom.chatRoomUsers.items[1].user;
 
     const navigation = useNavigation();
 
@@ -26,11 +27,11 @@ const ChatListItem = ( props: ChatListItemProps ) => {
                 <Image source={{uri: user.imageUri}} style={styles.avatar} />
                 <View style={styles.midContainer}>
                     <Text style={styles.username}>{user.name}</Text>
-                    <Text style={styles.lastMessage}>{chatRoom.lastMessage.content}</Text>
+                    <Text style={styles.lastMessage}>{chatRoom.lastMessage ? chatRoom.lastMessage.content : ""}</Text>
                 </View>
             </View>
 
-            <Text style={styles.time}>{moment(chatRoom.lastMessage.createdAt).fromNow()}</Text>
+            <Text style={styles.time}>{moment(chatRoom.lastMessage && chatRoom.lastMessage.createdAt).fromNow()}</Text>
         </View>
         </TouchableWithoutFeedback>
     )
