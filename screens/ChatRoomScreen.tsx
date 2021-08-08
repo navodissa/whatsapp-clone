@@ -4,9 +4,12 @@ import ChatMessage from '../components/ChatMessage';
 import chatRoomData from '../data/Chats'
 import BG from '../assets/images/BG.jpg'
 import InputBox from '../components/InputBox';
+import { useRoute } from '@react-navigation/native';
 
 const ChatRoomScreen
  = () => {
+    const route = useRoute();
+
     return (
         <ImageBackground style={{width: '100%', height: '100%'}} source={BG}>
             <FlatList
@@ -14,7 +17,7 @@ const ChatRoomScreen
             renderItem={({item}) => <ChatMessage message={item} />}
             inverted
             />
-            <InputBox />
+            <InputBox chatRoomID={route.params.id} />
         </ImageBackground>
     )
 }

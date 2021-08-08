@@ -1,18 +1,46 @@
 import React from 'react';
 import { Text, View, TextInput, TouchableOpacity} from 'react-native';
 import styles from './styles';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { API, Auth, graphqlOperation} from 'aws-amplify'
+
+import { createMessage } from '../../src/graphql/mutations';
 
 import { MaterialCommunityIcons, FontAwesome5, Entypo, Fontisto, MaterialIcons } from '@expo/vector-icons';
 
-const InputBox = () => {
+const InputBox = (props) => {
+    const {chatRoomID} = props;
 
     const [message, setMessage] = useState('');
+    const [myUserId, setMyUserId] = useState('');
 
-    const onSendPress = () => {
-        console.warn(`Send pressed: ${message} `)
+    useEffect(() => {
+        const fetchUser = async () => {
+            const userInfo = await Auth.currentAuthenticatedUser();
+            setMyUserId(userInfo.attributes.sub);
+        }
 
+        fetchUser();
+    }, [])
+
+    const onSendPress = async () => {
+        //console.warn(`Send pressed: ${message} `)
         // Send the message to backend
+        try {
+            await API.graphql(
+                graphqlOperation(
+                    createMessage, {
+                        input: {
+                            content: message,
+                            userID: myUserId,
+                            chatRoomID: chatRoomID
+                        }
+                    }
+                )
+            )
+        } catch (e) {
+            console.log(e);
+        }
 
         setMessage('')
     }
